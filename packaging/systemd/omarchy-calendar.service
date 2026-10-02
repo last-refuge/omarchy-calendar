@@ -1,6 +1,6 @@
 [Unit]
 Description=Omarchy Calendar local data service
-Documentation=https://github.com/jasona/omarchy-calendar
+Documentation=https://github.com/last-refuge/omarchy-calendar
 After=graphical-session.target
 
 [Service]

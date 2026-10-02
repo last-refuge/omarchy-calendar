@@ -7,9 +7,18 @@
 #include <QTemporaryDir>
 #include <QTimeZone>
 #include <cstdio>
+#include <cstdlib>
 
 int main(int argc, char **argv)
 {
+    if (argc != 4) {
+        std::fprintf(stderr, "usage: all-day-multiday-test TIMEZONE TIMED_DAYS FIRST_DATE\n");
+        return 1;
+    }
+    qputenv("TZ", QByteArray(argv[1]));
+    tzset();
+    const int expectedTimedDays = QString::fromLocal8Bit(argv[2]).toInt();
+    const QDate expectedFirstDate = QDate::fromString(QString::fromLocal8Bit(argv[3]), Qt::ISODate);
     QCoreApplication app(argc, argv);
     QTemporaryDir temporary;
     Database database(temporary.filePath("calendar.db"));
@@ -81,7 +90,19 @@ int main(int argc, char **argv)
         { "timeZone", "America/New_York" }
     })) return 11;
     const QJsonArray timedRows = database.eventsForRange("2026-03-09", "2026-03-10").array();
-    if (timedRows.size() != 2 || timedRows.at(0).toObject().value("allDay").toBool()
-        || !timedRows.at(0).toObject().value("multiDay").toBool()) return 12;
+    // Timed events span display dates in the system zone. This New York
+    // overnight event falls entirely on March 10 in UTC and Tokyo.
+    if (timedRows.size() != expectedTimedDays) {
+        std::fprintf(stderr, "%s: expected %d timed rows, got %lld\n", argv[1],
+                     expectedTimedDays, static_cast<long long>(timedRows.size()));
+        return 12;
+    }
+    for (int index = 0; index < timedRows.size(); ++index) {
+        const QJsonObject event = timedRows.at(index).toObject();
+        if (event.value("allDay").toBool()
+            || event.value("multiDay").toBool() != (expectedTimedDays > 1)
+            || event.value("dateKey").toString() != expectedFirstDate.addDays(index).toString(Qt::ISODate))
+            return 13;
+    }
     return 0;
 }

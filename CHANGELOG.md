@@ -30,5 +30,5 @@ All notable changes to Omarchy Calendar are documented here. The project uses
 - Durable offline mutation queue with conflict handling and recovery controls.
 - Omarchy theme integration, onboarding, accessibility, diagnostics, and large-calendar performance coverage.
 
-[Unreleased]: https://github.com/jasona/omarchy-calendar/compare/v0.9.0...HEAD
-[0.9.0]: https://github.com/jasona/omarchy-calendar/releases/tag/v0.9.0
+[Unreleased]: https://github.com/last-refuge/omarchy-calendar/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/last-refuge/omarchy-calendar/releases/tag/v0.9.0

@@ -12,7 +12,7 @@ depends=('glib2' 'glibc' 'hicolor-icon-theme' 'libgcc' 'libsecret' 'libstdc++' '
 makedepends=('cmake' 'ninja' 'pkgconf')
 optdepends=('qt6-wayland: native Wayland support'
             'gnome-keyring: Secret Service provider for Google account tokens (or another configured provider)')
-source=("https://github.com/jasona/omarchy-calendar/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+source=("https://github.com/last-refuge/omarchy-calendar/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
 b2sums=('@SOURCE_B2SUM@')
 
 build() {

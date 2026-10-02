@@ -35,6 +35,8 @@ jobs:
     steps:
       - name: Install packaging tools
         run: pacman -Syu --noconfirm base-devel devtools git namcap python sudo
+      - name: Initialize the container for nested systemd-nspawn
+        run: systemd-machine-id-setup
       - uses: actions/checkout@v4
       - name: Prepare source and AUR files with a test desktop client
         run: |

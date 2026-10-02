@@ -9,7 +9,7 @@ supported releases.
 ## Reporting a vulnerability
 
 Please report security issues privately through
-[GitHub Security Advisories](https://github.com/jasona/omarchy-calendar/security/advisories/new).
+[GitHub Security Advisories](https://github.com/last-refuge/omarchy-calendar/security/advisories/new).
 Do not include access tokens, refresh tokens, OAuth client credentials, calendar
 content, or other personal data in a public issue.
 

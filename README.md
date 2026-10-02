@@ -6,7 +6,7 @@
 
 **A fast, native calendar for [Omarchy](https://omarchy.org/) that works offline and syncs with Google Calendar.**
 
-[![CI](https://github.com/jasona/omarchy-calendar/actions/workflows/ci.yml/badge.svg)](https://github.com/jasona/omarchy-calendar/actions/workflows/ci.yml)
+[![CI](https://github.com/last-refuge/omarchy-calendar/actions/workflows/ci.yml/badge.svg)](https://github.com/last-refuge/omarchy-calendar/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-0.9.0-6E56CF)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Qt 6](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
@@ -65,7 +65,7 @@ Your events live on your machine. Google Calendar is where they sync to, not the
 > [!NOTE]
 > Version **0.9.0** is the release candidate for v1.0. The first public release is waiting on Google's OAuth verification. Until it ships, [build from source](#%EF%B8%8F-build-from-source) instead.
 
-Once a release is out, grab `omarchy-calendar-VERSION-aur.tar.gz` from the [Releases page](https://github.com/jasona/omarchy-calendar/releases), extract it, and run:
+Once a release is out, grab `omarchy-calendar-VERSION-aur.tar.gz` from the [Releases page](https://github.com/last-refuge/omarchy-calendar/releases), extract it, and run:
 
 ```bash
 cd aur
