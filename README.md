@@ -9,7 +9,7 @@
 [![CI](https://github.com/last-refuge/omarchy-calendar/actions/workflows/ci.yml/badge.svg)](https://github.com/last-refuge/omarchy-calendar/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-0.9.0-6E56CF)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Qt 6](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
+[![Qt 6](https://img.shields.io/badge/Qt-6.9%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 [![Arch Linux](https://img.shields.io/badge/Arch-Linux-1793D1?logo=archlinux&logoColor=white)](https://archlinux.org/)
 
 [Features](#-features) •
@@ -127,7 +127,7 @@ Want to talk to the service yourself? Check out the [DBus API docs](docs/dbus-ap
 
 ### Requirements
 
-- Qt **6.5+** (Core, DBus, Gui, Network, NetworkAuth, Qml, Quick, QuickControls2, Sql)
+- Qt **6.9+** (Core, DBus, Gui, Network, NetworkAuth, Qml, Quick, QuickControls2, Sql)
 - A C++20 compiler
 - CMake **3.21+** and Ninja (or qmake6 if you want the quick route)
 - `libsecret` and `pkg-config`
@@ -180,7 +180,7 @@ For visual checks, `./tests/capture-visual-baseline.sh` takes light and dark mod
 ## 🚀 Releases
 
 - 📋 [Release checklist](docs/google-oauth-release-checklist.md): what has to happen before a public release, including Google OAuth verification
-- 🏗️ [Arch release guide](docs/arch-release.md): local prep, clean-chroot validation, and AUR submission
+- 🏗️ [Arch release guide](docs/arch-release.md): release preparation, package validation, and AUR/Omarchy submission
 - 📝 [Changelog](CHANGELOG.md): what's changed in each version
 
 ## 🤝 Contributing

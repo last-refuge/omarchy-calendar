@@ -1,4 +1,5 @@
 QT += core dbus network networkauth sql
+!versionAtLeast(QT_VERSION, 6.9.0): error("Omarchy Calendar requires Qt 6.9 or later")
 QT -= gui
 CONFIG += console c++20
 CONFIG -= app_bundle

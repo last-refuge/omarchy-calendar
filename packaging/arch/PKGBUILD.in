@@ -8,7 +8,7 @@ arch=('x86_64' 'aarch64')
 url='https://lastrefuge.ai/projects/omarchy-calendar'
 license=('MIT')
 # xdg-utils provides xdg-open, launched by the service for OAuth authorization.
-depends=('glib2' 'glibc' 'hicolor-icon-theme' 'libgcc' 'libsecret' 'libstdc++' 'qt6-base' 'qt6-declarative' 'qt6-networkauth' 'xdg-utils')
+depends=('glib2' 'glibc' 'hicolor-icon-theme' 'libgcc' 'libsecret' 'libstdc++' 'qt6-base>=6.9' 'qt6-declarative>=6.9' 'qt6-networkauth>=6.9' 'xdg-utils')
 makedepends=('cmake' 'ninja' 'pkgconf')
 optdepends=('qt6-wayland: native Wayland support'
             'gnome-keyring: Secret Service provider for Google account tokens (or another configured provider)')

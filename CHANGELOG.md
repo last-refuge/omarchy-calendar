@@ -11,10 +11,11 @@ All notable changes to Omarchy Calendar are documented here. The project uses
 - Official Omarchy repository submission bundle with a stable GitHub release watch
   and native x86_64/aarch64 package builds in CI.
 - Reproducible release source archives with desktop OAuth configuration and
-  checksummed AUR submission files, plus clean-chroot package validation in CI.
+  checksummed AUR submission files, plus fresh-container package validation in CI.
 
 ### Fixed
 
+- Build requirements now specify Qt 6.9, matching the OAuth APIs in use.
 - Production install checks now validate the configured URLs and current version.
 - All-day/multi-day tests now cover display dates in four explicit time zones.
 - Package and project links now use the canonical last-refuge GitHub organization.

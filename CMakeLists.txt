@@ -19,11 +19,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core DBus Gui Network NetworkAuth Qml Quick QuickControls2 Sql)
+# GoogleAuth uses the token and scope APIs introduced in Qt NetworkAuth 6.9.
+find_package(Qt6 6.9 REQUIRED COMPONENTS Core DBus Gui Network NetworkAuth Qml Quick QuickControls2 Sql)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBSECRET REQUIRED IMPORTED_TARGET libsecret-1)
 
-qt_standard_project_setup(REQUIRES 6.5)
+qt_standard_project_setup(REQUIRES 6.9)
 # Arch packages install shared libraries in the system search path.
 set(CMAKE_INSTALL_RPATH "")
 
