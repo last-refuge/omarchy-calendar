@@ -28,15 +28,11 @@ jobs:
 
   arch-package:
     runs-on: ubuntu-latest
-    container:
-      image: archlinux:latest
-      options: --privileged
+    container: archlinux:latest
     timeout-minutes: 30
     steps:
       - name: Install packaging tools
-        run: pacman -Syu --noconfirm base-devel devtools git namcap python sudo
-      - name: Initialize the container for nested systemd-nspawn
-        run: systemd-machine-id-setup
+        run: pacman -Syu --noconfirm base-devel git namcap python sudo
       - uses: actions/checkout@v4
       - name: Prepare source and AUR files with a test desktop client
         run: |
@@ -49,7 +45,54 @@ jobs:
             'OMARCHY_CALENDAR_GOOGLE_CLIENT_SECRET=ci-test-secret' > /tmp/ci-oauth.env
           runuser -u builder -- python3 packaging/prepare-release.py \
             --ref HEAD --oauth-env /tmp/ci-oauth.env --output build-aur-ci
-      - name: Build in a clean Arch chroot
-        run: runuser -u builder -- bash -c 'cd build-aur-ci/aur && extra-x86_64-build'
+      - name: Build in the fresh Arch container using declared dependencies
+        run: runuser -u builder -- bash -c 'cd build-aur-ci/aur && makepkg --syncdeps --cleanbuild --noconfirm'
       - name: Validate package contents and dependencies
         run: ./tests/check-arch-package.sh build-aur-ci/aur
+      - name: Save test sources for Omarchy builds
+        uses: actions/upload-artifact@v4
+        with:
+          name: omarchy-test-sources
+          path: build-aur-ci/*.tar.gz
+          retention-days: 7
+
+  omarchy-package:
+    needs: arch-package
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check out reviewed Omarchy build tooling
+        uses: actions/checkout@v4
+        with:
+          repository: omacom/omarchy-pkgs
+          ref: 1ede7396405e98eb987fc58e1a015b1aa7e032da
+          path: build-opr
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: omarchy-test-sources
+          path: build-opr-input
+      - name: Stage recipe and locally prepared test source
+        run: |
+          version=$(sed -n 's/^#define OMARCHY_CALENDAR_VERSION "\([^"]*\)"/\1/p' app/version.h)
+          tar -xzf "build-opr-input/omarchy-calendar-$version-opr.tar.gz" -C build-opr
+          cp "build-opr-input/omarchy-calendar-$version.tar.gz" build-opr/pkgbuilds/omarchy-calendar/
+          python3 build-opr/helpers/upstream-watch.py validate build-opr/pkgbuilds/omarchy-calendar
+      - name: Build with Omarchy's edge repositories
+        run: sudo env CONTAINER_ENGINE=docker build-opr/bin/build --mirror edge --arch ${{ matrix.arch }} --package omarchy-calendar
+      - name: Save unsigned test packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: omarchy-test-packages-${{ matrix.arch }}
+          path: build-opr/build-output/edge/${{ matrix.arch }}/*.pkg.tar.zst
+          if-no-files-found: error
+          retention-days: 7

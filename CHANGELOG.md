@@ -8,12 +8,16 @@ All notable changes to Omarchy Calendar are documented here. The project uses
 ### Added
 
 - Release packaging and final v1.0 validation work.
+- Official Omarchy repository submission bundle with a stable GitHub release watch
+  and native x86_64/aarch64 package builds in CI.
 - Reproducible release source archives with desktop OAuth configuration and
   checksummed AUR submission files, plus clean-chroot package validation in CI.
 
 ### Fixed
 
 - Production install checks now validate the configured URLs and current version.
+- All-day/multi-day tests now cover display dates in four explicit time zones.
+- Package and project links now use the canonical last-refuge GitHub organization.
 - CI runs makepkg checks as an unprivileged user, and RSVP tests keep invitation
   fixtures in the future so they do not expire between releases.
 - Arch packages install the MIT license in the standard license directory and

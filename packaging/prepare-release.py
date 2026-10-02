@@ -5,6 +5,7 @@ import argparse
 import gzip
 import hashlib
 import io
+import json
 from pathlib import Path
 import re
 import shutil
@@ -92,6 +93,16 @@ def prepare(repo, ref, oauth, output):
         srcinfo = subprocess.check_output(["makepkg", "--printsrcinfo"], cwd=aur)
         (aur / ".SRCINFO").write_bytes(srcinfo)
         archive(artifacts / f"{source_name}-aur.tar.gz", artifacts, ["aur"], epoch)
+        # OPR owns its recipe and discovers updates from the upstream release
+        # watch. It consumes the same immutable source as AUR, not our binary.
+        opr = work / "opr"
+        package = opr / "pkgbuilds/omarchy-calendar"
+        (package / ".omarchy").mkdir(parents=True)
+        shutil.copyfile(aur / "PKGBUILD", package / "PKGBUILD")
+        metadata = json.loads((source / "packaging/omarchy/package.json").read_text())
+        (package / ".omarchy/package.json").write_text(json.dumps(metadata, indent=2) + "\n")
+        archive(artifacts / f"{source_name}-opr.tar.gz", opr, ["pkgbuilds"], epoch)
+        shutil.copytree(opr, artifacts / "opr")
         # makepkg uses this exact archive locally before it is published at the source URL.
         shutil.copyfile(source_archive, aur / source_archive.name)
         (artifacts / "SOURCE_REVISION").write_text(revision + "\n")

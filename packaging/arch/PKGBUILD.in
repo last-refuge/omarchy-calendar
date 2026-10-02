@@ -1,5 +1,5 @@
 # Maintainer: Jason Alexander <jason@greatspark.com>
-# Generated with packaging/prepare-release.py; submit the generated copy to AUR.
+# Generated with packaging/prepare-release.py for AUR and Omarchy submissions.
 pkgname=omarchy-calendar
 pkgver=0.9.0
 pkgrel=1
