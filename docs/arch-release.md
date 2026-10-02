@@ -96,6 +96,15 @@ Release discovery cannot pass until the upstream GitHub release is public.
 The watch ignores draft and prerelease releases. See the
 [OPR upstream-watch documentation](https://github.com/omacom/omarchy-pkgs/blob/master/docs/upstream-sources.md).
 
+Validation recorded on October 2, 2026: source revision
+`e179729da75f53ba710d201ace268ac051252db3` passed
+[all four CI jobs](https://github.com/last-refuge/omarchy-calendar/actions/runs/37050584629):
+application build/install/visual/contract checks, Arch package validation, and
+native Omarchy edge package builds for x86_64 and aarch64. The generated OPR
+metadata also passed upstream validation, and the cached source archive passed
+`makepkg --verifysource`. These used test OAuth settings. They do not establish
+live Google authorization, public release discovery, or desktop acceptance.
+
 ## Maintainer proposal draft
 
 **Subject: Package inclusion proposal: Omarchy Calendar**
@@ -110,7 +119,8 @@ and Omarchy theme integration.
 - License: MIT
 - Proposed package name: `omarchy-calendar`
 - Maintainer/contact: Jason Alexander, `jason@greatspark.com`
-- Proposed architectures: x86_64 and aarch64, subject to successful native builds.
+- Proposed architectures: x86_64 and aarch64; both passed native edge builds in
+  [CI](https://github.com/last-refuge/omarchy-calendar/actions/runs/37050584629).
 - Packaging: source build from an immutable GitHub release archive with a pinned
   checksum; direct GitHub release watch; no build-time publisher credentials.
 - Google integration: the archive includes the publisher's Desktop app client
@@ -130,19 +140,43 @@ or upstream pull request has been sent by the preparation tools.
 
 ## Submission gates
 
-- [ ] Hosted contract, Arch package, and both Omarchy architecture builds pass
+- [x] Hosted contract, Arch package, and both Omarchy architecture builds pass
 - [ ] Google verification confirmed and live production lifecycle tested
 - [ ] First immutable source release published; fresh downloads verify
 - [ ] Upstream watch resolves the public release successfully
 - [ ] Fresh Omarchy install, login, notifications, upgrade, and data retention tested
 - [ ] Maintainers accept the proposal and agree on channel/architecture policy
-- [ ] OPR contribution contains only the recipe and `.omarchy/package.json`
+- [x] OPR contribution contains only the recipe and `.omarchy/package.json`
 - [ ] OPR checks pass; maintainer build approval obtained if required
 - [ ] Maintainers sign/publish/promote; stable installation verified
 
 New contributors' OPR builds may await the `build-approved` label or maintainer
 vouching. That approval and repository signing stay with Omarchy's maintainers;
 the generated bundle does not grant publication rights.
+
+## Desktop acceptance checks
+
+Use a disposable, current Omarchy installation with an unlocked Secret Service
+provider. Record the Omarchy version, channel, architecture, source revision,
+and package checksum with the results. Build success alone does not cover these
+desktop checks:
+
+1. Install the candidate package with pacman and launch it from the application
+   menu. Check the icon, Omarchy theme, and service activation in a fresh login.
+2. With the approved production Desktop app client, connect a dedicated test
+   account, sync calendars, and create, edit, RSVP to, and delete test events.
+   Confirm changes in Google Calendar and verify a reminder notification.
+3. Restart the application and log out/in. Confirm account reconnection, retained
+   calendar data and preferences, and the absence of duplicate background services.
+4. Disconnect the network, queue a test change, restart, and reconnect. Confirm
+   the change reaches Google once. Test revoked access and account disconnect.
+5. Upgrade from the previous candidate with test data and preferences present.
+   Confirm both survive. Remove/reinstall the package and confirm user data is
+   retained; verify that account disconnect still removes the account's tokens.
+
+Run these against the agreed release channel before claiming that channel is
+supported. CI currently covers native builds against edge, not a full desktop
+session or rc/stable compatibility.
 
 ## Publish after Google approval
 
@@ -163,3 +197,28 @@ the generated bundle does not grant publication rights.
 Do not replace published source archives in place. Changed source or client
 configuration needs a new upstream release and freshly generated checksums.
 Keep the final publication/AUR submission separate from local preparation.
+
+## Submit the Omarchy contribution
+
+After maintainer agreement and the public source release, extract that release's
+`omarchy-calendar-VERSION-opr.tar.gz` into a current fork of
+[`omacom/omarchy-pkgs`](https://github.com/omacom/omarchy-pkgs). Use the production
+release bundle, not the CI bundle containing a fake OAuth client.
+
+1. Confirm the contribution changes only `pkgbuilds/omarchy-calendar/PKGBUILD`
+   and `pkgbuilds/omarchy-calendar/.omarchy/package.json`.
+2. Without a cached source archive, run `makepkg --verifysource` from the package
+   directory to verify the public download and pinned checksum. From the OPR
+   root, run the upstream-watch `validate` and `check` commands shown above.
+3. Build with the current upstream tooling for the agreed architectures and
+   channels. Include the public release URL, exact source revision, CI evidence,
+   and desktop acceptance results in the inclusion PR.
+4. Address maintainer feedback and any required `build-approved`/vouching step.
+   Maintainers control merging, signing, repository publication, and promotion.
+5. Once published, verify installation through pacman on a fresh installation
+   using the agreed Omarchy repository channel, then repeat the desktop checks.
+   Record the published version and channel before announcing availability.
+
+Future releases use the same immutable source-archive process. Omarchy's release
+watch proposes version/checksum updates; packaging changes still need a separate
+OPR contribution. A new client configuration also requires a new upstream release.
