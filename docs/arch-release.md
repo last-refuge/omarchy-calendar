@@ -129,8 +129,12 @@ new regression test also covers importing that stale export into a fresh databas
 The release build, install-layout check, 14-view visual matrix, and all 23
 contract checks passed locally. The 20,000-event performance fixture passed
 with 250 range queries in 3,992 ms and 25 searches in 1,074 ms. A final targeted
-database regression check passed after the disconnect fix. Hosted builds will
-validate the committed release source for both supported architectures.
+database regression check passed after the disconnect fix. [Hosted CI](https://github.com/last-refuge/omarchy-calendar/actions/runs/37235332029)
+passed all four jobs for tagged source
+`8e983357ee985bd42b886a2e0a3a32b6c00a719a`: application build/install/visual/contracts,
+Arch package validation, and native Omarchy edge builds for x86_64 and aarch64.
+The Omarchy bootstrap used the pinned upstream public keyring after the public
+keyserver failed; fingerprint-specific trust and signature checks were retained.
 
 This was service validation on an existing desktop, not acceptance on a fresh
 Omarchy installation. Live RSVP, permission revocation, offline reconnect,
@@ -138,7 +142,31 @@ notifications, OS logout/login, and package upgrade were not repeated here;
 mock contract checks cover RSVP, recovery, mutation queues, and token failures.
 Fresh desktop and channel acceptance remain explicit maintainer/release tasks.
 
-## Maintainer proposal draft
+## Publication status on October 4, 2026
+
+- [Version 1.0.0 is public](https://github.com/last-refuge/omarchy-calendar/releases/tag/v1.0.0),
+  including the source, recipe bundles, x86_64 binary and debug packages,
+  checksums, and source revision.
+- The [production release workflow](https://github.com/last-refuge/omarchy-calendar/actions/runs/37236054987)
+  passed. Downloaded assets passed every `SHA256SUMS` check, and the three
+  generated archives matched an independent local preparation byte-for-byte.
+- `makepkg --verifysource` fetched the public source with no local cache and
+  verified its pinned BLAKE2 checksum. Current upstream-watch validation passed;
+  discovery recognized the stable release as already current at 1.0.0.
+- [Omarchy inclusion PR #804](https://github.com/omacom/omarchy-pkgs/pull/804)
+  is open with only the recipe and release-watch metadata. Maintainer review,
+  required workflow/build approval, signing, and repository publication remain
+  pending. Do not claim official repository availability until those complete.
+- Direct AUR submission is deferred at the publisher’s request. The downloadable
+  recipe bundle can still be used to build and install locally.
+
+The first release attempt passed testing and packaging but failed while creating
+its draft because the GitHub CLI inferred the repository from a checkout owned
+by the build user. The corrected workflow supplies the repository explicitly and
+supports retries of an existing tag. Version 1.0.0 was retried without moving its
+tag or changing its source archive.
+
+## Submitted maintainer proposal
 
 **Subject: Package inclusion proposal: Omarchy Calendar**
 
@@ -153,7 +181,7 @@ and Omarchy theme integration.
 - Proposed package name: `omarchy-calendar`
 - Maintainer/contact: Jason Alexander, `jason@greatspark.com`
 - Proposed architectures: x86_64 and aarch64; both passed native edge builds in
-  [CI](https://github.com/last-refuge/omarchy-calendar/actions/runs/37050584629).
+  [CI](https://github.com/last-refuge/omarchy-calendar/actions/runs/37235332029).
 - Packaging: source build from an immutable GitHub release archive with a pinned
   checksum; direct GitHub release watch; no build-time publisher credentials.
 - Google integration: the archive includes the publisher's Desktop app client
@@ -169,20 +197,21 @@ policy; maintainers decide whether additional acceptance checks are required.
 This proposal is for optional repository availability;
 default installation or shell calendar integration would be discussed separately.
 
-Before submitting, attach the current release URL, passing CI run, architecture
-results, and the scope and limits of desktop acceptance evidence. The generated
-bundle itself does not open an upstream pull request.
+The submitted PR includes the public release URL, passing CI and architecture
+results, public source checks, and the scope and limits of desktop acceptance.
+The generated bundle alone does not submit future updates automatically.
 
 ## Submission gates
 
 - [x] Hosted contract, Arch package, and both Omarchy architecture builds pass
 - [x] Google verification confirmed in the production Verification Center
 - [x] Post-approval production sign-in, sync, mutation, restart, and disconnect checks recorded
-- [ ] First immutable source release published; fresh downloads verify
-- [ ] Upstream watch resolves the public release successfully
+- [x] First immutable source release published; fresh downloads verify
+- [x] Upstream watch resolves the public release successfully
 - [ ] Fresh Omarchy install, login, notifications, upgrade, and data retention tested
 - [ ] Maintainers accept the proposal and agree on channel/architecture policy
 - [x] OPR contribution contains only the recipe and `.omarchy/package.json`
+- [x] Omarchy inclusion PR submitted with release and validation evidence
 - [ ] OPR checks pass; maintainer build approval obtained if required
 - [ ] Maintainers sign/publish/promote; stable installation verified
 

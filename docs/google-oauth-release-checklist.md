@@ -7,6 +7,10 @@ to have a public homepage on a
 verified domain, a privacy policy on that same domain, accurate consent-screen
 branding, and verification for sensitive scopes.
 
+Version [1.0.0 is published](https://github.com/last-refuge/omarchy-calendar/releases/tag/v1.0.0).
+[Omarchy inclusion PR #804](https://github.com/omacom/omarchy-pkgs/pull/804) awaits
+maintainer review and repository publication. Direct AUR submission is deferred.
+
 Current status:
 
 - [x] Publisher domain selected: `lastrefuge.ai`

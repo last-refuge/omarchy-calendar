@@ -73,7 +73,7 @@ makepkg -si
 systemctl --user enable --now omarchy-calendar.service
 ```
 
-Official Omarchy repository inclusion is pending maintainer review. The release bundle works independently of that process.
+Official Omarchy repository inclusion is pending maintainer review in [PR #804](https://github.com/omacom/omarchy-pkgs/pull/804). The release bundle works independently of that process.
 
 Open **Omarchy Calendar** from your app launcher.
 

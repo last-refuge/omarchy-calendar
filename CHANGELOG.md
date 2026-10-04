@@ -5,6 +5,11 @@ All notable changes to Omarchy Calendar are documented here. The project uses
 
 ## [Unreleased]
 
+### Fixed
+
+- Release draft creation now uses an explicit repository and supports retrying
+  an existing version tag without changing the tagged source.
+
 ## [1.0.0] - 2026-10-04
 
 ### Added
