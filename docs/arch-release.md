@@ -164,7 +164,10 @@ The first release attempt passed testing and packaging but failed while creating
 its draft because the GitHub CLI inferred the repository from a checkout owned
 by the build user. The corrected workflow supplies the repository explicitly and
 supports retries of an existing tag. Version 1.0.0 was retried without moving its
-tag or changing its source archive.
+tag or changing its source archive. The separate tag-triggered general CI run
+also exposed missing public URL variables in that workflow’s metadata test;
+general CI now supplies the same public settings as the release workflow.
+The tagged source’s branch CI and the production release checks both passed.
 
 ## Submitted maintainer proposal
 

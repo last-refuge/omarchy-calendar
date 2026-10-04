@@ -4,6 +4,12 @@ on:
   push:
   pull_request:
 
+env:
+  OMARCHY_CALENDAR_HOMEPAGE_URL: https://lastrefuge.ai/projects/omarchy-calendar
+  OMARCHY_CALENDAR_PRIVACY_URL: https://lastrefuge.ai/privacy
+  OMARCHY_CALENDAR_TERMS_URL: https://lastrefuge.ai/terms
+  OMARCHY_CALENDAR_SUPPORT_EMAIL: jason@greatspark.com
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
