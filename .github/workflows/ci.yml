@@ -87,6 +87,26 @@ jobs:
           tar -xzf "build-opr-input/omarchy-calendar-$version-opr.tar.gz" -C build-opr
           cp "build-opr-input/omarchy-calendar-$version.tar.gz" build-opr/pkgbuilds/omarchy-calendar/
           python3 build-opr/helpers/upstream-watch.py validate build-opr/pkgbuilds/omarchy-calendar
+      - name: Bootstrap the builder with the pinned upstream public key
+        run: |
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          import shutil
+
+          root = Path("build-opr")
+          dockerfile = root / "build/Dockerfile"
+          content = dockerfile.read_text()
+          fetch = "RUN pacman-key --recv-keys 40DFB630FF42BCFFB047046CF0134EE680CAC571 --keyserver keys.openpgp.org"
+          if content.count(fetch) != 1:
+              raise SystemExit("Upstream key bootstrap changed; review before patching")
+          # Use the keyring from the same pinned upstream commit. Keep the
+          # fingerprint-specific trust step and all package signature checks.
+          shutil.copyfile(root / "pkgbuilds/omarchy-keyring/omarchy.gpg",
+                          root / "build/omarchy-bootstrap.gpg")
+          replacement = ("COPY omarchy-bootstrap.gpg /tmp/omarchy-bootstrap.gpg\n"
+                         "RUN pacman-key --add /tmp/omarchy-bootstrap.gpg")
+          dockerfile.write_text(content.replace(fetch, replacement))
+          PYTHON
       - name: Build with Omarchy's edge repositories
         run: sudo env CONTAINER_ENGINE=docker build-opr/bin/build --mirror edge --arch ${{ matrix.arch }} --package omarchy-calendar
       - name: Save unsigned test packages

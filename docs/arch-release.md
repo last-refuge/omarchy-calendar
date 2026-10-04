@@ -68,7 +68,9 @@ installation are separate maintainer decisions. AUR publication is optional.
 CI builds the generated package in a fresh Arch container, then overlays the
 generated OPR contribution onto pinned upstream tooling and builds natively for
 both x86_64 and aarch64 against Omarchy's edge repositories. CI uses test OAuth
-settings and retains unsigned artifacts for seven days. Local `extra-x86_64-build`
+settings and retains unsigned artifacts for seven days. The CI bootstrap imports Omarchy’s public keyring from the pinned upstream
+commit rather than relying on a live keyserver lookup; fingerprint-specific
+trust and package signature verification remain enabled. Local `extra-x86_64-build`
 validation remains useful; nested systemd-nspawn inside GitHub's job container
 is not used because the outer container has no running system bus.
 
