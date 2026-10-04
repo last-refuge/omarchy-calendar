@@ -1,7 +1,9 @@
 # Google OAuth public-release checklist
 
-Omarchy Calendar's public OAuth configuration is the remaining external v1.0
-release gate. Google requires a production app to have a public homepage on a
+Google production OAuth approval was reported by the publisher on October 4,
+2026 and confirmed in Google’s Verification Center. Release validation and
+package publication are tracked separately. Google requires a production app
+to have a public homepage on a
 verified domain, a privacy policy on that same domain, accurate consent-screen
 branding, and verification for sensitive scopes.
 
@@ -19,8 +21,10 @@ Current status:
 - [ ] Public support address made eligible in Google Cloud and selected in Branding
 - [x] OAuth application icon uploaded; branding verified and published
 - [x] App published from Testing to Production
-- [x] Verification submitted; awaiting Google's final review
-- [ ] Google approval received and production lifecycle retested
+- [x] Verification submitted and replacement scope-demonstration video provided
+- [x] Google production OAuth approval received (publisher confirmation, 2026-10-04)
+- [x] Production sign-in, sync, create/edit/delete, restart, and disconnect retested
+- [ ] Remaining fresh-desktop acceptance checks completed (see [release evidence](arch-release.md#production-validation-on-october-4-2026))
 
 ## 1. Choose and verify the public domain
 
@@ -76,7 +80,7 @@ review passed with this configuration.
 The exact form copy and recording sequence are maintained in
 [`google-oauth-verification-submission.md`](google-oauth-verification-submission.md).
 
-Record one concise, unedited demonstration showing:
+Record a concise demonstration showing the complete consent sequence:
 
 1. The public homepage, privacy policy, and terms.
 2. Starting Google authorization from the Omarchy Calendar welcome screen.
@@ -102,8 +106,8 @@ used only to identify and label the connected account.
    workflow builds the source archive, checksummed AUR bundle, and binary
    package, then creates a **draft** GitHub release. Review it and finish the
    live checks before publication. Confirm the public source downloads work
-   before submitting the generated `PKGBUILD` and `.SRCINFO` to AUR. The OAuth
-   app is already in production while its sensitive-scope review is pending.
+   before submitting the generated `PKGBUILD` and `.SRCINFO` to AUR. Google
+   has approved the production OAuth integration.
 
 Official references:
 

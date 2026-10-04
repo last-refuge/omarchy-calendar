@@ -239,6 +239,7 @@ int main(int argc, char **argv)
     const QString secondQueuedId = database.nextPendingMutation(accountId).object().value("id").toString();
     if (secondQueuedId.isEmpty() || !database.discardMutation(secondQueuedId)
         || !database.pendingMutations().array().isEmpty()) return 36;
+    if (!database.exportCompatibilityFeed(exportedFeed)) return 37;
     if (!database.removeAccount(accountId))
         return 14;
     if (!database.accounts().array().isEmpty()
@@ -246,5 +247,17 @@ int main(int argc, char **argv)
         || database.eventsForRange(QStringLiteral("2026-09-20"), QStringLiteral("2026-09-21")).array().size() != 3
         || database.calendars().array().size() != 1)
         return 15;
+    const auto disconnectedEvents = database.eventsForRange(
+        QStringLiteral("2026-09-20"), QStringLiteral("2026-09-21"));
+    if (!database.importCompatibilityFeed(exportedFeed)
+        || database.eventsForRange(QStringLiteral("2026-09-20"), QStringLiteral("2026-09-21"))
+            != disconnectedEvents)
+        return 38;
+    Database freshDatabase(temporary.filePath(QStringLiteral("fresh.db")));
+    if (!freshDatabase.open() || !freshDatabase.importCompatibilityFeed(exportedFeed)
+        || !freshDatabase.calendars().array().isEmpty()
+        || !freshDatabase.eventsForRange(QStringLiteral("2026-09-20"), QStringLiteral("2026-09-21"))
+                .array().isEmpty())
+        return 39;
     return 0;
 }

@@ -270,12 +270,15 @@ bool CalendarService::BeginGoogleAuthorization()
 
 bool CalendarService::DisconnectGoogle()
 {
-    if (!m_googleAuth.disconnectAccount())
-        return false;
     m_googleSync.cancel();
     m_googleMutations.cancel();
-    if (!m_database.importCompatibilityFeed(m_feedPath))
+    if (!m_googleAuth.disconnectAccount())
+        return false;
+    if (!m_database.exportCompatibilityFeed(m_feedPath)) {
         qWarning().noquote() << m_database.lastError();
+        return false;
+    }
+    ensureWatching();
     emit EventsChanged();
     return true;
 }

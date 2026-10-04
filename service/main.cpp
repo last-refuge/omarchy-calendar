@@ -10,6 +10,7 @@
 #include <QDBusConnection>
 #include <QDBusError>
 #include <QDir>
+#include <QFileInfo>
 #include <QJsonDocument>
 
 int main(int argc, char *argv[])
@@ -37,7 +38,10 @@ int main(int argc, char *argv[])
         qCritical().noquote() << database.lastError();
         return EXIT_FAILURE;
     }
-    if (!database.importCompatibilityFeed(feedPath)) {
+    // A first installation has no legacy feed. Explicit imports and existing
+    // feeds must still be validated instead of silently ignoring invalid data.
+    if ((parser.isSet(QStringLiteral("import-only")) || QFileInfo::exists(feedPath))
+        && !database.importCompatibilityFeed(feedPath)) {
         qCritical().noquote() << database.lastError();
         return EXIT_FAILURE;
     }

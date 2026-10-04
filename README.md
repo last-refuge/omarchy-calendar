@@ -7,7 +7,7 @@
 **A fast, native calendar for [Omarchy](https://omarchy.org/) that works offline and syncs with Google Calendar.**
 
 [![CI](https://github.com/last-refuge/omarchy-calendar/actions/workflows/ci.yml/badge.svg)](https://github.com/last-refuge/omarchy-calendar/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-0.9.0-6E56CF)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.0-6E56CF)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Qt 6](https://img.shields.io/badge/Qt-6.9%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 [![Arch Linux](https://img.shields.io/badge/Arch-Linux-1793D1?logo=archlinux&logoColor=white)](https://archlinux.org/)
@@ -63,9 +63,9 @@ Your events live on your machine. Google Calendar is where they sync to, not the
 ## 📦 Install
 
 > [!NOTE]
-> Version **0.9.0** is the release candidate for v1.0. The first public release is waiting on Google's OAuth verification. Until it ships, [build from source](#%EF%B8%8F-build-from-source) instead.
+> Google has approved the production OAuth integration. Version **1.0.0** includes the publisher's Desktop app client, so normal installations do not need a Google Cloud project.
 
-Once a release is out, grab `omarchy-calendar-VERSION-aur.tar.gz` from the [Releases page](https://github.com/last-refuge/omarchy-calendar/releases), extract it, and run:
+Grab `omarchy-calendar-1.0.0-aur.tar.gz` from the [Releases page](https://github.com/last-refuge/omarchy-calendar/releases), extract it, and run:
 
 ```bash
 cd aur
@@ -73,7 +73,9 @@ makepkg -si
 systemctl --user enable --now omarchy-calendar.service
 ```
 
-That's it. Open **Omarchy Calendar** from your app launcher.
+Official Omarchy repository inclusion is pending maintainer review. The release bundle works independently of that process.
+
+Open **Omarchy Calendar** from your app launcher.
 
 The package installs the app, a small background service that handles syncing, the icon, the desktop entry, and DBus activation files. Your database and settings live in your home directory, so they stick around when you upgrade.
 

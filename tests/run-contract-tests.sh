@@ -7,6 +7,7 @@ service_binary="${1:-$project_dir/build-service/omarchy-calendar-service}"
 tests=(
   test-release-metadata.sh
   test-service-import.sh
+  test-fresh-start.sh
   test-google-database.sh
   test-dbus-contract.sh
   test-google-auth-contract.sh
@@ -32,7 +33,7 @@ tests=(
 for test_name in "${tests[@]}"; do
   printf '\n==> %s\n' "$test_name"
   case "$test_name" in
-    test-service-import.sh|test-dbus-contract.sh|test-google-auth-contract.sh)
+    test-service-import.sh|test-fresh-start.sh|test-dbus-contract.sh|test-google-auth-contract.sh)
       "$project_dir/tests/$test_name" "$service_binary"
       ;;
     *)

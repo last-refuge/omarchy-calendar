@@ -45,9 +45,10 @@ Suggested sensitive-scope explanation:
 
 ## Demo recording script
 
-Record one continuous, readable video with the browser address bar and the full
-application window visible where relevant. Use a dedicated test calendar and
-avoid exposing unrelated personal events. Upload the result to YouTube as
+Record a readable video with the browser address bar and the full application
+window visible where relevant. Shorten idle pauses without omitting consent
+steps. Hide the transient authorization callback URL and unrelated event details.
+Use a dedicated test calendar or an explicitly authorized personal calendar. Upload the result to YouTube as
 **Unlisted** and keep its URL; Google's form requires a YouTube link. The
 unverified-app warning is expected and must remain visible in the recording.
 The project currently has one OAuth client, the Desktop app client, and the
@@ -58,8 +59,16 @@ recording must show that client in use.
    privacy policy identifies each category of Google data and its use.
 2. Launch a clean Omarchy Calendar profile. Show the welcome screen and choose
    **Connect Google Calendar**.
-3. Show Google's authorization screen, the Omarchy Calendar identity, and every
-   requested permission. Continue with the test account.
+3. Keep recording as the app opens Google in the browser. Show the account
+   chooser, the Omarchy Calendar identity, any unverified-app warning, and the
+   complete consent workflow in English. Before granting access, expand every
+   permission detail and any section describing access already granted. Pause
+   long enough to read the email/identity permissions, calendar-list permission,
+   and event read/write permission. Keep the address bar visible. If Google
+   collapses previously granted permissions and they cannot be shown clearly,
+   use a fresh test account or remove this app's grant from the test account
+   before starting a new take. Do not remove a daily-use account's grant just
+   to reset the demo. Only continue after the permission evidence is captured.
 4. Return to the application. Show the connected account label and synchronized
    calendar list, then briefly disable the network and show that previously
    synchronized events remain available locally.
@@ -74,6 +83,74 @@ recording must show that client in use.
 Keep the recording concise. Narrate which permission enables each visible step;
 do not add marketing material or unrelated product features.
 
+Google's follow-up specifically rejected the original video because the requested
+scopes were not visible during consent. Showing source code or the Cloud Console
+scope list alone does not address that finding. Verify the finished recording
+contains the actual consent screens and working scope-dependent features before
+uploading it. Text captions can map Google's permission descriptions to the exact
+scope names above without covering the consent text.
+
+## Replacement-video follow-up
+
+Original submitted video: https://youtu.be/k07isTwB5aI. Google requested a new
+recording showing the requested scopes in the OAuth consent workflow. The request
+was reported on October 2, 2026. The replacement was published as Unlisted and
+saved in Google Cloud on the same date. The reply to Google is prepared for
+Jason to send in the existing verification thread.
+
+Replacement video: https://youtu.be/-wH1yxoX1Fo (6:00, 1440×1080). YouTube
+reported no issues in its checks; playback and Unlisted visibility were verified.
+Google Cloud confirmed “Data access changes saved!” after replacing the URL.
+
+| Video position | Evidence |
+| --- | --- |
+| 0:00 | Application welcome screen and Connect Google |
+| 0:17 | Google account chooser and personal-account selection |
+| 0:36 | Unverified-app warning and continuation |
+| 1:06–2:39 | Actual consent screen with all four permissions expanded and explained |
+| 2:39–3:09 | Consent completion and successful local callback |
+| 3:09 | Calendar list and synchronized events |
+| 3:31 | Temporary event creation on the personal calendar |
+| 4:35 | Read and edit the test event |
+| 5:19 | Delete the test event |
+| 5:43 | Connected account and synchronized calendars |
+
+The opening was re-recorded to keep the account chooser in frame. Idle pauses
+were shortened. The callback address and unrelated event details were hidden.
+The test event was removed, and the service reported no pending mutations or
+mutation errors. This demonstration does not establish OAuth approval.
+
+Upload the reviewed replacement to the same YouTube channel as **Unlisted**.
+Confirm the full video is processed, readable, and accessible without a channel
+login. Update the demo-video URL in Google Auth Platform's Data Access page and
+reply in the existing verification email thread. Keep the old video until the
+replacement has been reviewed; do not claim Google approval from an upload alone.
+
+Prepared reply (not sent to Google):
+
+> Hello Google OAuth Verification Team,
+>
+> Thank you for your feedback. I have re-recorded the Omarchy Calendar demo and
+> updated the demo-video link in our verification submission.
+>
+> Updated video: https://youtu.be/-wH1yxoX1Fo
+>
+> The updated video shows the application from its welcome screen, the complete Google OAuth
+> consent workflow in English with the requested permissions visible, and how
+> the application uses those permissions to identify the connected account,
+> display its calendar list, and read, create, edit, and delete calendar events.
+>
+> OAuth consent and requested permissions: 0:17–3:09 (expanded scopes: 1:06–2:39)
+> Application use of the requested permissions: 3:09–6:00
+>
+> Please use this video in place of the previous demo at
+> https://youtu.be/k07isTwB5aI for project `omarchy-calendar-509223`.
+>
+> Thank you,
+> Jason Alexander
+
+Reference: [Google's demo-video requirements](https://support.google.com/cloud/answer/13804565).
+
 ## Final console sequence
 
 - [x] Verify `lastrefuge.ai` in Search Console through the Cloudflare DNS flow.
@@ -87,9 +164,12 @@ do not add marketing material or unrelated product features.
 - [x] Verify and publish the OAuth branding.
 - [x] Publish the app from Testing to Production.
 - [x] Enter the sensitive-scope justification in Google's review form.
-- [ ] Record the demonstration and provide its unlisted YouTube URL.
-- [ ] Complete the brand and sensitive-scope verification form using the scope
+- [x] Record the initial demonstration and provide its unlisted YouTube URL.
+- [x] Complete the brand and sensitive-scope verification form using the scope
       explanations above, attach the unlisted demo-video URL, and submit.
+- [x] Replace the demo after Google's scope-visibility feedback and save the new
+      URL in the verification request.
+- [ ] Send the prepared reply in the existing Google verification email thread.
 - [ ] Record the submission date, Google's case/reference number, and every
       follow-up request in this document.
 
@@ -100,9 +180,11 @@ do not add marketing material or unrelated product features.
 | Domain verified | 2026-09-21 | Google Search Console, Domain name provider method |
 | Branding verified and published | 2026-09-21 | Google Auth Platform automated branding verification |
 | App moved to production | 2026-09-21 | Google Auth Platform Audience |
-| Verification submitted | — | — |
-| Google follow-up answered | — | — |
-| Verification approved | — | — |
+| Verification submitted | Date not recorded | Initial demo: https://youtu.be/k07isTwB5aI |
+| Replacement demo requested | Reported 2026-10-02 | Google: requested scopes not shown in OAuth consent workflow |
+| Replacement demo published and saved | 2026-10-02 | https://youtu.be/-wH1yxoX1Fo; Google Cloud save confirmed |
+| Google follow-up answered | Pending Jason's reply | Reply prepared below replacement-video record |
+| Verification approved | Reported 2026-10-04 | Publisher confirmation and Google Verification Center: branding and data access verified |
 | Production lifecycle retest passed | — | — |
 | `v1.0.0` released | — | — |
 

@@ -76,7 +76,7 @@ QJsonArray meetingLinks(const QJsonObject &raw)
         }
     }
 
-    const QRegularExpression urlPattern(QStringLiteral("https?://[^\\s<>\\\"']+"),
+    static const QRegularExpression urlPattern(QStringLiteral("https?://[^\\s<>\\\"']+"),
                                         QRegularExpression::CaseInsensitiveOption);
     const QString searchable = raw.value(QStringLiteral("description")).toString() + QLatin1Char(' ')
         + raw.value(QStringLiteral("location")).toString();
@@ -638,6 +638,10 @@ bool Database::importCompatibilityFeed(const QString &feedPath)
             m_lastError.clear();
             return true;
         }
+        // Our feed is a projection of the database, not a backup to restore.
+        // In particular, a stale export must not resurrect disconnected accounts.
+        m_lastError.clear();
+        return true;
     }
 
     if (!m_database.transaction()) {

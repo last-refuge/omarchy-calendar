@@ -299,7 +299,7 @@ Times should be stored as UTC instants plus the original IANA timezone. All-day 
 
 ## Major risks and decisions
 
-1. **Google OAuth verification is the release-critical external dependency.** Begin the consent-screen and verification work during Phase 1, not at launch.
+1. **Google production OAuth verification was approved on October 4, 2026.** The remaining release work is package validation, publication, and Omarchy maintainer acceptance; see [the release guide](arch-release.md).
 2. **Recurrence and timezone correctness are harder than rendering.** Build these as tested service-layer behavior before adding elaborate editor controls.
 3. **A local desktop app cannot receive Google webhooks directly.** Incremental polling is the correct first architecture.
 4. **Quickshell is the companion surface, not the full application runtime.** This limits shell crashes and keeps the calendar independently testable.

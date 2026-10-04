@@ -105,6 +105,37 @@ metadata also passed upstream validation, and the cached source archive passed
 `makepkg --verifysource`. These used test OAuth settings. They do not establish
 live Google authorization, public release discovery, or desktop acceptance.
 
+## Production validation on October 4, 2026
+
+Google's Verification Center reports both branding and data access verified.
+An isolated service profile on the publisher's existing Omarchy x86_64 desktop,
+using the approved Desktop app client and an unlocked private Secret Service,
+passed these live Google API checks:
+
+- Sign-in without the unverified-app warning, followed by synchronization.
+- Creation and editing of a temporary event without guests or reminders.
+- Credential restoration and preservation of the edit after service restart.
+- Deletion of that event and confirmation it stayed absent after another sync.
+- Account disconnect, with zero remaining accounts, calendars, events, or
+  exported feed events, and no stored refresh token. A further restart retained
+  the empty state.
+
+The temporary Google event was deleted. Testing exposed and fixed a stale
+compatibility-feed import that could restore disconnected calendar data; the
+new regression test also covers importing that stale export into a fresh database.
+
+The release build, install-layout check, 14-view visual matrix, and all 23
+contract checks passed locally. The 20,000-event performance fixture passed
+with 250 range queries in 3,992 ms and 25 searches in 1,074 ms. A final targeted
+database regression check passed after the disconnect fix. Hosted builds will
+validate the committed release source for both supported architectures.
+
+This was service validation on an existing desktop, not acceptance on a fresh
+Omarchy installation. Live RSVP, permission revocation, offline reconnect,
+notifications, OS logout/login, and package upgrade were not repeated here;
+mock contract checks cover RSVP, recovery, mutation queues, and token failures.
+Fresh desktop and channel acceptance remain explicit maintainer/release tasks.
+
 ## Maintainer proposal draft
 
 **Subject: Package inclusion proposal: Omarchy Calendar**
@@ -128,20 +159,23 @@ and Omarchy theme integration.
   such as GNOME Keyring is required for sign-in; local configuration overrides
   remain supported.
 
-The first public release is held until Google verification and the live
-production authorization lifecycle are complete. Would you welcome an inclusion
-PR once those checks pass, and do you have a preferred channel policy or any
-additional requirements? This proposal is for optional repository availability;
+Google production OAuth approval was confirmed in the Verification Center on
+October 4, 2026. Production sign-in, synchronization, test-event creation and
+editing, credential restoration after restart, and deletion/resync have been
+retested. The inclusion PR proposes the default edge-to-rc-to-stable channel
+policy; maintainers decide whether additional acceptance checks are required.
+This proposal is for optional repository availability;
 default installation or shell calendar integration would be discussed separately.
 
-Before sending, update the verification status, attach the current passing CI
-run and architecture results, and confirm the maintenance commitment. No proposal
-or upstream pull request has been sent by the preparation tools.
+Before submitting, attach the current release URL, passing CI run, architecture
+results, and the scope and limits of desktop acceptance evidence. The generated
+bundle itself does not open an upstream pull request.
 
 ## Submission gates
 
 - [x] Hosted contract, Arch package, and both Omarchy architecture builds pass
-- [ ] Google verification confirmed and live production lifecycle tested
+- [x] Google verification confirmed in the production Verification Center
+- [x] Post-approval production sign-in, sync, mutation, restart, and disconnect checks recorded
 - [ ] First immutable source release published; fresh downloads verify
 - [ ] Upstream watch resolves the public release successfully
 - [ ] Fresh Omarchy install, login, notifications, upgrade, and data retention tested

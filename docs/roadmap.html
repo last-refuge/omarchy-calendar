@@ -472,7 +472,7 @@
   3. Set data-last-updated on <body> whenever roadmap facts change.
   4. Counts, progress, badges, phase summaries, and filters update automatically.
 -->
-<body data-last-updated="2026-09-21">
+<body data-last-updated="2026-10-04">
   <header class="topbar">
     <div class="topbar__inner">
       <div class="brand"><div class="brand__mark">O</div><span>Omarchy Calendar</span></div>
@@ -600,7 +600,7 @@
         <article class="work-card" data-roadmap-item data-status="done"><div class="work-card__top"><h3>Packaging</h3></div><ul><li>✓ Arch PKGBUILD, versioned production paths, icon, desktop, DBus, systemd, and AppStream metadata</li><li>✓ Clean staged install with preserved user data and validated package manifest</li><li>✓ CI workflow, semantic changelog, MIT license, and release-candidate versioning</li></ul></article>
         <article class="work-card work-card--full" data-roadmap-item data-status="planned"><div class="work-card__top"><h3>Multi-account support · after v1.0</h3></div><ul><li>Connect multiple Google identities, group calendars by account, route mutations correctly, and make account-level health obvious without cluttering the daily experience.</li></ul></article>
       </div>
-      <div class="release-blocker" data-roadmap-item data-status="blocked"><div class="release-blocker__flag">External release blocker</div><div><h3>Google verification</h3><p>The Last Refuge pages are live, domain ownership and branding are verified, the app is in production, the OAuth scope set is minimal, and the sensitive-scope justification is entered. The publisher must record the required demonstration, provide its unlisted YouTube URL, submit the scope review, and receive Google’s approval.</p></div></div>
+      <div class="release-blocker" data-roadmap-item data-status="done"><div class="release-blocker__flag">Approval received</div><div><h3>Google verification</h3><p>Google production OAuth approval was confirmed by the publisher on October 4, 2026, after submission of the updated scope-demonstration video. Release validation and repository publication are the remaining distribution steps.</p></div></div>
       <div class="exit"><strong>v1.0 release gate</strong><span>Daily calendar work, invitations, meeting links, and reminders are complete; onboarding, accessibility, visual polish, performance, packaging, migrations, failure drills, public OAuth, and real-account testing are release-ready with no known data-loss or blocker defects.</span></div>
     </section>
 
@@ -625,7 +625,7 @@
         <p class="phase-summary">Correctness and resilience are built alongside each feature, with real APIs and real failure conditions.</p>
       </header>
       <div class="work-grid">
-        <article class="work-card work-card--wide" data-roadmap-item data-status="done"><div class="work-card__top"><h3>Automated correctness</h3></div><ul><li>✓ Fresh schema and development migration coverage through schema 10</li><li>✓ All-day, multi-day, timezone, DST, recurrence, and exception boundaries</li><li>✓ Conflict resolution, coalescing, create, update, delete, RSVP, move, resize, focus, and undo</li><li>✓ One-command 22-contract suite in CI</li></ul></article>
+        <article class="work-card work-card--wide" data-roadmap-item data-status="done"><div class="work-card__top"><h3>Automated correctness</h3></div><ul><li>✓ Fresh schema and development migration coverage through schema 10</li><li>✓ All-day, multi-day, timezone, DST, recurrence, and exception boundaries</li><li>✓ Conflict resolution, coalescing, create, update, delete, RSVP, move, resize, focus, and undo</li><li>✓ One-command 23-contract suite in CI</li></ul></article>
         <article class="work-card work-card--wide" data-roadmap-item data-status="done"><div class="work-card__top"><h3>Integration &amp; failure drills</h3></div><ul><li>✓ Reversible live Google create/upload/delete/resync lifecycle</li><li>✓ Offline mutations and interrupted uploads survive restart</li><li>✓ Server, quota, cursor, authorization, conflict, disk, cache, and Secret Service failures</li><li>✓ Redacted diagnostics preserve actionable errors</li></ul></article>
         <article class="work-card work-card--wide" data-roadmap-item data-status="done"><div class="work-card__top"><h3>Release hardening</h3></div><ul><li>✓ Uploads stop before network access when queue state cannot be persisted</li><li>✓ Release tags, OAuth credentials, public-domain metadata, package contents, and checksums are automated</li><li>✓ Private vulnerability reporting and supported-version policy are published</li></ul></article>
         <article class="work-card work-card--full" data-roadmap-item data-status="done"><div class="work-card__top"><h3>Visual confidence</h3></div><ul><li>✓ Repeatable offscreen captures for day, week, month, agenda, search, settings, and onboarding in light and dark themes</li><li>✓ Comfortable and compact density baselines plus 100%, 125%, 150%, and 200% scale smoke renders</li><li>✓ Sanitized v1 visual matrix published with the source</li></ul></article>
@@ -640,7 +640,7 @@
         <div class="sequence-row"><strong>✓ Calendar correctness</strong><span>All-day, timezone, DST, recurrence, and conflicts</span></div>
         <div class="sequence-row"><strong>✓ Workday depth</strong><span>Reminders, guests, RSVP, meetings, search, and quick add</span></div>
         <div class="sequence-row"><strong>✓ Productization</strong><span>Polish, accessibility, resilience, packaging, CI, and release automation</span></div>
-        <div class="sequence-row"><strong>Current · Google production approval</strong><span>Demo recording, sensitive-scope submission, and approval</span></div>
+        <div class="sequence-row"><strong>✓ Google production approval</strong><span>Consent demonstration and sensitive-scope approval complete</span></div>
         <div class="sequence-row"><strong>After v1.0 · Expansion</strong><span>Shell companion, availability, work event types, multi-account, and CalDAV</span></div>
       </div>
     </section>
@@ -651,7 +651,7 @@
     </details>
   </main>
 
-  <footer><div class="wrap"><span>Omarchy Calendar · Product &amp; Engineering Roadmap</span><span>Last updated <time id="last-updated" datetime="2026-09-21">September 21, 2026</time></span></div></footer>
+  <footer><div class="wrap"><span>Omarchy Calendar · Product &amp; Engineering Roadmap</span><span>Last updated <time id="last-updated" datetime="2026-10-04">October 4, 2026</time></span></div></footer>
 
   <script>
     const statusLabels = { done: 'Finished', active: 'In progress', planned: 'Planned', blocked: 'Blocked' };
