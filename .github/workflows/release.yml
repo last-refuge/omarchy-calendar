@@ -3,6 +3,12 @@ name: Release
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing version tag to build as a draft release
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -13,6 +19,7 @@ jobs:
     container: archlinux:latest
     timeout-minutes: 40
     env:
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
       OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
       OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
       OMARCHY_CALENDAR_HOMEPAGE_URL: https://lastrefuge.ai/projects/omarchy-calendar
@@ -25,12 +32,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: refs/tags/${{ inputs.tag || github.ref_name }}
       - name: Create unprivileged build user
         run: |
           useradd --create-home builder
           chown -R builder:builder "$GITHUB_WORKSPACE"
       - name: Verify tag and release metadata
-        run: runuser -u builder -- ./tests/test-release-metadata.sh
+        run: |
+          printf '%s\n' "$RELEASE_TAG" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'
+          runuser -u builder -- env GITHUB_REF_TYPE=tag GITHUB_REF_NAME="$RELEASE_TAG" ./tests/test-release-metadata.sh
       - name: Configure production OAuth credentials
         run: |
           test -n "$OAUTH_CLIENT_ID"
@@ -54,7 +64,7 @@ jobs:
         run: |
           chown -R builder:builder "$GITHUB_WORKSPACE"
           runuser -u builder -- python3 packaging/prepare-release.py \
-            --ref "$GITHUB_REF_NAME" --oauth-env packaging/google-oauth.env --output dist
+            --ref "$RELEASE_TAG" --oauth-env packaging/google-oauth.env --output dist
           runuser -u builder -- bash -c 'cd dist/aur && makepkg --noconfirm --cleanbuild'
           ./tests/check-arch-package.sh dist/aur
           cp dist/aur/omarchy-calendar-*.pkg.tar.zst dist/
@@ -64,5 +74,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
-          gh release create "$GITHUB_REF_NAME" dist/*.tar.gz dist/*.pkg.tar.zst
+          gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" dist/*.tar.gz dist/*.pkg.tar.zst
           dist/SHA256SUMS dist/SOURCE_REVISION --generate-notes --verify-tag --draft
