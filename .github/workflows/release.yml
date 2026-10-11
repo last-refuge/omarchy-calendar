@@ -28,7 +28,7 @@ jobs:
       OMARCHY_CALENDAR_SUPPORT_EMAIL: jason@greatspark.com
     steps:
       - name: Install release dependencies
-        run: pacman -Syu --noconfirm appstream base-devel cmake dbus desktop-file-utils git github-cli jq libsecret namcap ninja python qt6-base qt6-declarative qt6-networkauth sqlite xdg-utils
+        run: pacman -Syu --noconfirm appstream base-devel cmake dbus desktop-file-utils git github-cli jq libsecret namcap ninja python qt6-base qt6-declarative qt6-networkauth shellcheck sqlite xdg-utils
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -41,6 +41,11 @@ jobs:
         run: |
           printf '%s\n' "$RELEASE_TAG" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'
           runuser -u builder -- env GITHUB_REF_TYPE=tag GITHUB_REF_NAME="$RELEASE_TAG" ./tests/test-release-metadata.sh
+      - name: Validate and test installer
+        run: |
+          bash -n install.sh tests/test-installer.sh
+          shellcheck install.sh tests/test-installer.sh
+          runuser -u builder -- ./tests/test-installer.sh
       - name: Configure production OAuth credentials
         run: |
           test -n "$OAUTH_CLIENT_ID"
@@ -68,11 +73,12 @@ jobs:
           runuser -u builder -- bash -c 'cd dist/aur && makepkg --noconfirm --cleanbuild'
           ./tests/check-arch-package.sh dist/aur
           cp dist/aur/omarchy-calendar-*.pkg.tar.zst dist/
+          cp install.sh dist/install.sh
           cd dist
-          sha256sum ./*.tar.gz ./*.pkg.tar.zst SOURCE_REVISION > SHA256SUMS
+          sha256sum ./*.tar.gz ./*.pkg.tar.zst install.sh SOURCE_REVISION > SHA256SUMS
       - name: Create draft GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
           gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" dist/*.tar.gz dist/*.pkg.tar.zst
-          dist/SHA256SUMS dist/SOURCE_REVISION --generate-notes --verify-tag --draft
+          dist/install.sh dist/SHA256SUMS dist/SOURCE_REVISION --generate-notes --verify-tag --draft

@@ -266,6 +266,55 @@ Do not replace published source archives in place. Changed source or client
 configuration needs a new upstream release and freshly generated checksums.
 Keep the final publication/AUR submission separate from local preparation.
 
+## Installer publication and acceptance
+
+The release workflow validates `install.sh`, runs the isolated installer tests,
+copies the script from the tagged checkout into `dist/`, includes it in
+`SHA256SUMS`, and attaches it to the draft release. It does not modify prior
+releases. Verify that the draft contains the application package, source and
+recipe archives, installer, and checksum manifest before publishing.
+
+After the first release containing the installer is public, verify the following
+download works, then replace the README's pending-release note with this command:
+
+```bash
+curl -fsSL https://github.com/last-refuge/omarchy-calendar/releases/latest/download/install.sh | bash
+```
+
+Also offer a download-and-inspect path for users who prefer to read the script:
+
+```bash
+curl -fsSL https://github.com/last-refuge/omarchy-calendar/releases/latest/download/install.sh -o install.sh
+less install.sh
+bash install.sh --dry-run
+bash install.sh
+```
+
+Test from a disposable Omarchy desktop as its regular user:
+
+1. Run `--dry-run` and confirm that no package, service, log, or temporary files
+   are created by the installer.
+2. Run the published piped command. Check the banner, progress, visible sudo and
+   pacman prompts, retained logs, and launcher entry. Confirm the user service
+   is active and the Calendar window opens.
+3. Run again and confirm there is no redundant package transaction. Upgrade from
+   the previous release with sample events and settings; confirm data retention
+   and that the service restarts into the new version.
+4. Test `--source` and the aarch64 fallback on a system without a matching binary.
+   Confirm makepkg runs unprivileged and uses the verified release source.
+5. Check `NO_COLOR`, `TERM=dumb`, a narrow terminal, redirected output,
+   cancellation, missing user session, and `--no-start`. Deferred activation must
+   show the activation command; failed activation must return a failure status.
+6. Inspect failure logs and recovery instructions after a download failure or
+   rejected package transaction. Keep pacman's configured signature policy.
+
+Run `bash -n install.sh tests/test-installer.sh`,
+`shellcheck install.sh tests/test-installer.sh`, and `./tests/test-installer.sh`
+before publication. Fixture tests never install host packages or change the
+developer's service. They cover release selection, checksums, source fallback,
+prompts, cursor restoration, and service outcomes; they do not establish fresh
+desktop acceptance or live Google sign-in.
+
 ## Submit the Omarchy contribution
 
 After maintainer agreement and the public source release, extract that release's

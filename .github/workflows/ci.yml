@@ -11,6 +11,18 @@ env:
   OMARCHY_CALENDAR_SUPPORT_EMAIL: jason@greatspark.com
 
 jobs:
+  installer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate installer shell syntax and style
+        run: |
+          bash -n install.sh tests/test-installer.sh
+          shellcheck install.sh tests/test-installer.sh
+      - name: Test installer with isolated release and command fixtures
+        run: ./tests/test-installer.sh
+
   build-and-test:
     runs-on: ubuntu-latest
     container: archlinux:latest
