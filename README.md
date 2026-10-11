@@ -67,13 +67,10 @@ Your events live on your machine. Google Calendar is where they sync to, not the
 
 ### Recommended: command-line installer
 
-On **Omarchy or Arch Linux**, clone this repository and run the installer as your
-regular desktop user:
+On **Omarchy or Arch Linux**, run this command as your regular desktop user:
 
 ```bash
-git clone https://github.com/last-refuge/omarchy-calendar.git
-cd omarchy-calendar
-bash install.sh
+curl -fsSL https://raw.githubusercontent.com/last-refuge/omarchy-calendar/main/install.sh | bash
 ```
 
 The installer shows a colored summary of the selected release and installation
@@ -82,8 +79,8 @@ through pacman and enables the background service, with progress indicators and
 clear next steps. Package transactions may ask for your sudo password.
 
 It supports **x86_64 and aarch64** and requires `curl`, `jq`, `sudo`, and the
-standard Arch tools; cloning also requires `git`. When a matching binary is
-available, it installs that package. Otherwise it builds the published release
+standard Arch tools. When a matching binary is available, it installs that
+package. Otherwise it builds the published release
 using makepkg and installs the required build dependencies. Both paths include
 the production Google client configuration.
 
@@ -93,12 +90,11 @@ Connect your Google account in **Settings** with your keyring unlocked.
 To preview the selected release and planned actions:
 
 ```bash
-bash install.sh --dry-run
+curl -fsSL https://raw.githubusercontent.com/last-refuge/omarchy-calendar/main/install.sh | bash -s -- --dry-run
 ```
 
-The installer selects the latest stable release. It installs released code even
-when run from a development checkout. Running it again skips the package
-transaction if the selected version is already installed. Upgrades restart the
+The installer selects the latest stable release. Running it again skips the
+package transaction if the selected version is already installed. Upgrades restart the
 background service and preserve your calendar data and settings.
 
 | Option | Purpose |
@@ -111,8 +107,10 @@ background service and preserve your calendar data and settings.
 | `--verbose` | Show detailed output |
 | `--help` | Show requirements and usage |
 
-Use `NO_COLOR=1 bash install.sh` to disable color and animation. Redirected output
-and `TERM=dumb` also use plain output. Logs are retained in
+Pass options using `bash -s --`, as in the dry-run example above.
+
+Replace `| bash` with `| NO_COLOR=1 bash` to disable color and animation.
+Redirected output and `TERM=dumb` also use plain output. Logs are retained in
 `~/.local/state/omarchy-calendar/installer/` (or under `$XDG_STATE_HOME` when set),
 including after a failed run.
 
@@ -128,9 +126,6 @@ If service activation fails, inspect its log:
 ```bash
 journalctl --user -u omarchy-calendar.service -n 50
 ```
-
-The release-hosted one-command installer will be available with the next release
-that includes `install.sh`; version 1.0.0 does not contain that asset yet.
 
 ### Manual installation
 
